@@ -10,7 +10,7 @@ async function main() {
   const verifyContract = await ethers.getContractFactory("NFTSmooshYeti");
 
   // deploy the contract
-  const deployedVerifyContract = await verifyContract.deploy("ipfs://QmNvxfoFMAoWiekcWtFS3LiKMtCGf3ZVxP1XEobMSK3TQ8/");
+  const deployedVerifyContract = await verifyContract.deploy("ipfs://QmQPqYDdRTMg6j1cUxkLEk9hEQNKQANdxL1gH7dbWvCUzZ/");
 
   await deployedVerifyContract.deployed();
 
@@ -24,7 +24,7 @@ async function main() {
   // Verify the contract after deploying
   await hre.run("verify:verify", {
     address: deployedVerifyContract.address,
-    constructorArguments: ["ipfs://QmNvxfoFMAoWiekcWtFS3LiKMtCGf3ZVxP1XEobMSK3TQ8/"],
+    constructorArguments: ["ipfs://QmQPqYDdRTMg6j1cUxkLEk9hEQNKQANdxL1gH7dbWvCUzZ/"],
   });
 }
 

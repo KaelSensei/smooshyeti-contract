@@ -7,8 +7,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 
-
-
 contract NFTSmooshYeti is ERC721A, Ownable {
 
     using Strings for uint;
@@ -28,6 +26,9 @@ contract NFTSmooshYeti is ERC721A, Ownable {
     uint private constant MAX_SUPPLY = 3920;
     uint private constant MAX_WHITELIST = 250;
     uint private constant MAX_PUBLIC = 3670;
+
+    bool private isRevealed = false;
+    string private notRevealedUrl = "notRevealed.json";
 
     uint public whitelist_price = 0.0045 ether;
     uint public public_price = 0.0075 ether;
@@ -73,12 +74,21 @@ contract NFTSmooshYeti is ERC721A, Ownable {
        
     function setStep(uint _step) external onlyOwner {
         sellingStep = Step(_step);
+        sellingStep == Step.Reveal;
+    }
+
+    function revealCollection() external onlyOwner {
+        isRevealed = true;
     }
 
     function tokenURI(uint _tokenId) public view virtual override returns (string memory) {
         require(_exists(_tokenId), "URI query for nonexistent token");
-
-        return string(abi.encodePacked(baseURI, _tokenId.toString(), ".json"));
+        if(isRevealed == true) {
+            return string(abi.encodePacked(baseURI, _tokenId.toString(), ".json"));
+        }
+        else {
+            return string(abi.encodePacked(baseURI, notRevealedUrl));
+        }
     }
 
    function setMerkleRoot(bytes32 _merkleRoot) external onlyOwner {
